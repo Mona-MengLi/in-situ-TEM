@@ -28,7 +28,10 @@ def readcsvCol(path,col):
     with open(path,'r') as csvfile:
         plots = csv.reader(csvfile, delimiter=',')
         for row in plots:
-            x.append(float(row[col]))
+            if row[col]=='':
+                x.append(np.nan)
+            else:
+                x.append(float(row[col]))
 #        plt.plot(x,y) #to check if  the read  result is correct
     return x
 def readcsv(path,col_list):
@@ -38,7 +41,7 @@ def readcsv(path,col_list):
     Output: 1D np array
         
     Example: 
-        x = readcsv(path,1)
+        x = readcsv(path,[0:3])
     """
 #    w= len(col_list)
     x=readcsvCol(path,col_list[0])
@@ -52,7 +55,14 @@ def readcsv(path,col_list):
         i=i+1
 #        D = [D, x]
     return D
+
     
+def writeCSV(pathout,data):
+#    import csv
+    import numpy as np
+#    (length,width)=np.shape(data)
+#    np.savetxt(pathout, data, fmt='%1.4d', delimiter=",") 
+    np.savetxt(pathout, data, fmt='%.4f', delimiter=",")   
     
 def plot2ani(x,y,outpath,label,w=800,h=600,fps=10,dpi=72,tl_size=20,c='r'):
     """
@@ -98,5 +108,20 @@ def plot2ani(x,y,outpath,label,w=800,h=600,fps=10,dpi=72,tl_size=20,c='r'):
                                       interval=interV, blit=True, repeat=True)
     ani.save(outpath)
     plt.show()
-
     
+ 
+    
+
+#Automatic find ROI bg color from 
+def AutoROIbg(img):
+    """
+    Function to find ROI color from BW image:
+        if ROI is 255, then the bg is 0
+    """
+    bg=int(np.mean(img))
+    if bg<128:
+        ROI =255
+    else:
+        ROI = 0
+    return ROI
+            
