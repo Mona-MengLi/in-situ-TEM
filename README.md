@@ -1,2 +1,2 @@
 # in-situ-TEM 
-Codes for in situ TEM movie processing using Python
+Toolbox of codes for in situ TEM movie processing using Python. The toolbox can be installed via " pipinstall insituTEM "
